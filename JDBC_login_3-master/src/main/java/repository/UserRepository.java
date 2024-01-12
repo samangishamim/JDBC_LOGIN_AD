@@ -3,10 +3,7 @@ package repository;
 import model.Address;
 import model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserRepository {
 
@@ -19,8 +16,11 @@ public class UserRepository {
     public int registerUser(User user) throws SQLException {
 //        Connection connection = jdbcConnection.getConnection();
 
-        String addUser = "INSERT INTO users(first_name, last_name,national_id, username, password) VALUES (?, ?, ?, ?, ?);";
-        PreparedStatement preparedStatement = connection.prepareStatement(addUser);
+        String addUser = "INSERT INTO users(first_name, last_name,national_id, username, password) " +
+                "VALUES (?, ?, ?, ?, ?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(addUser,
+                Statement.RETURN_GENERATED_KEYS
+        );
 
         preparedStatement.setString(1, user.getFirstName());
         preparedStatement.setString(2, user.getLastName());
@@ -29,7 +29,14 @@ public class UserRepository {
         preparedStatement.setString(5, user.getPassword());
 
         int result = preparedStatement.executeUpdate();
-        return result;
+        long id = 0;
+        if (result == 1) {
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
+        }
+        return (int) id;
     }
 
     public User findByUsername(String username) throws SQLException {
