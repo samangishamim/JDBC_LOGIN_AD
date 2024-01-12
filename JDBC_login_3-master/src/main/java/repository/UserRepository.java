@@ -1,5 +1,6 @@
 package repository;
 
+import model.Address;
 import model.User;
 
 import java.sql.Connection;
@@ -38,7 +39,7 @@ public class UserRepository {
         PreparedStatement preparedStatement = connection.prepareStatement(findUser);
         preparedStatement.setString(1, username);
         ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()) {
+        if (resultSet.next()) {
             int id = resultSet.getInt("id");
             String firstName = resultSet.getString("first_name");
             String lastname = resultSet.getString("last_name");
@@ -47,8 +48,23 @@ public class UserRepository {
             String password = resultSet.getString("password");
             User user = new User(id, firstName, lastname, nationalId, fetchUsername, password);
             return user;
-        }
-        else
+        } else
             return null;
+    }
+
+    public int addUserAddress(Address address) throws SQLException {
+        String addAddress = "insert into address(country, province, city, street, alley, number, user_id) values (?,?,?,?,?,?,?);";
+        PreparedStatement ps = connection.prepareStatement(addAddress);
+        ps.setString(1, address.getCountry());
+        ps.setString(2, address.getProvince());
+        ps.setString(3, address.getCity());
+        ps.setString(4, address.getStreet());
+        ps.setString(5, address.getAlley());
+        ps.setInt(6, address.getNumber());
+        ps.setInt(7, address.getUser_id());
+
+        int result = ps.executeUpdate();
+        return result;
+
     }
 }
