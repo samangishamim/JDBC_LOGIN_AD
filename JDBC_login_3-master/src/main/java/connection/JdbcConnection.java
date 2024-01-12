@@ -10,7 +10,7 @@ public class JdbcConnection {
     static {
         try {
             CONNECTION =
-                      DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "BlackHead23");
+                      DriverManager.getConnection("jdbc:postgresql://localhost:5432/jdbc_login", "postgres", "shamim1379");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
