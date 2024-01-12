@@ -1,5 +1,6 @@
 package service;
 
+import model.Address;
 import model.User;
 import repository.UserRepository;
 import utility.Validation;
@@ -71,5 +72,30 @@ public class UserService {
             System.out.println("Please enter correct password");
         else
             System.out.println("WELCOME " + user.getUsername());
+    }
+    public  void getAddressFromUser () throws SQLException {
+        System.out.println("please enter your country: ");
+        String country =scanner.nextLine();
+        System.out.println("please enter your provinc: ");
+        String provinc =scanner.nextLine();
+        System.out.println("please enter your city: ");
+        String city =scanner.nextLine();
+        System.out.println("please enter your street: ");
+        String street =scanner.nextLine();
+        System.out.println("please enter your alley: ");
+        String alley =scanner.nextLine();
+        System.out.println("please enter your number: ");
+        int number =scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("please enter your userid : ");
+        int userid =scanner.nextInt();
+        scanner.nextLine();
+
+        Address address=new Address(country,provinc,city,street,alley,number,userid);
+        int result =userRepository.addUserAddress(address);
+        if(result==1)
+            System.out.println("the address successfully added");
+        else
+            System.out.println("error");
     }
 }
