@@ -86,4 +86,17 @@ public class Address {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
+
+    @Override
+    public String toString() {
+        return "\nAddress{" +
+                "address_id=" + address_id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", alley='" + alley + '\'' +
+                ", number=" + number +
+                ", user_id=" + user_id +
+                '}';
+    }
 }
